@@ -36,7 +36,7 @@ def listParties(n, colCond, rowCond, guessQuality):
             print('\nFound decent party:\n', party.getParty())
             print('with quality', tryQuality)
             print()
-        parties.append(party)
+            parties.append(party)
     return parties, chart
 
 def resistQuality(resistances, chart):

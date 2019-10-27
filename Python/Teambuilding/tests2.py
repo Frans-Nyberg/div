@@ -49,4 +49,4 @@ def testEffectivenessMatrix():
 def testGetTypingList(cond):
     print('TypingList: ', getTypingList(cond))
 
-#testGetTypingList('grasswaterfire')
+testGetTypingList('grasswaterfire')
