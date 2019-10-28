@@ -19,14 +19,14 @@ class MyClient(discord.Client):
 
         # only read and post from the following channels
         self.allowedChannels = [
-#        608289492671004673, #BotChannel
-        242401310228480000, #WhimData
-        506732654629093386, #Channeler
+#        , #BotChannel
+        , #WhimData
+        , #Channeler
         ]
 
     async def on_ready(self):
         print('------')
-        await MessageMaker.loadMemory(self.get_channel(242401310228480000), self.channels, self.memory)
+        await MessageMaker.loadMemory(self.get_channel(), self.channels, self.memory)
 
     async def on_message(self, message):
         if message.author.id == self.user.id:
@@ -52,7 +52,7 @@ class MyClient(discord.Client):
                     sendingMessage = MessageMaker.getMessage(self.memory)
                     messageContent = sendingMessage.content
 
-                    channeler = self.get_channel(506732654629093386)
+                    channeler = self.get_channel()
                     await channeler.send(messageContent)
 
                     time = MessageMaker.waitTime(5)
@@ -65,7 +65,7 @@ class MyClient(discord.Client):
                     sendingMessage = self.sendings.pop()
                     messageContent = sendingMessage.content
 
-                    channeler = self.get_channel(506732654629093386)
+                    channeler = self.get_channel()
                     await channeler.send(messageContent)
 
                     time = self.waits.pop()
@@ -75,4 +75,4 @@ class MyClient(discord.Client):
                     await asyncio.sleep(10)
 
 client = MyClient()
-client.run('NjA4MjkxNzk2NDM4NzQ1MDk4.XUnWWA.T4ILz273i3s7jiPEWCtSAELXFKQ')
+client.run('')
