@@ -54,9 +54,8 @@ def guessGenerator(n, typingList):
 def conditionsMet(party, chart, guaranteeChart):
     colTypings = chart.getColTyping()
     foundCounter = False
-    for colTyping in colTypings:
-        for b in existsCounter(colTyping, party, chart):
-            if not b: return False
+    for colTyping in colTypings:        
+        if not existsCounter(colTyping, party, chart): return False
     party.guaranteedResistCount(countGuaranteedResist(party,chart,guaranteeChart))
 #    party.immunityCount(countImmunities(party, chart))
 #    party.sameTypeCount(countSameTypings(party, chart))
@@ -68,7 +67,7 @@ def existsCounter(foe, party, chart):
         identifier = chartContent[(member, foe)]
         if chart.isResistant(identifier):
             return True
-    yield False
+    return False
 
 def countGuaranteedResist(party, chart, guaranteeChart):
     def counter(party, chart):
