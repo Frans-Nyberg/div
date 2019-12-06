@@ -16,24 +16,15 @@ def testMostResistancesParty(n,colCond,rowCond):
 # This one actually gives a quality 1 team
 # (fire, ghost), (normal, fire), (normal, grass)
 #testMostResistancesParty(3,'dual1-5','dual1-5')
-testMostResistancesParty(2,'grasswaterfire','normalgrasswaterfire')
+#testMostResistancesParty(2,'grasswaterfire','normalgrasswaterfire')
 
 def testListParties(n,cond1,cond2):
-    listParties(n,cond1,cond2)
+    listParties(n,cond1,cond2,0)
 
 #testListParties(2,'grasswaterfire','grasswaterfire')
 #testListParties(2,'dual1-5','dual1-5')
 #testListParties(3,'dual1-5','dual1-5')
 
-# Suggesting of conducted tests:
-# 'grassfireghost' for checking
-# monoatk, monodef : grass, grass: 1 grass, fire: 0, grass,ghost: 0
-# dualatk, monodef : grass, (grass, ghost): 1
-# monoatk, dualdef : (grass,ghost), grass: 1, (grass,ghost): fire: 0
-# dualatk, dualdef : (grass,ghost), (grass,ghost): 0
-# 'grasswaterghost' for checking
-# dualatk, monodef : water, (grass,water): 0, ghost, (grass,water): 0
-# dualatk, dualdef: (grass,water), (grass,water): 1, (grass,water), (grass,ghost): 0
 def testTypingChart(attacker, defender):
     typingList = getTypingList(defender)
     colTypingList = getTypingList(attacker)
@@ -46,7 +37,7 @@ def testTypingChart(attacker, defender):
     print('TypingList: ', colTypingList, '\n VS', typingList)
 
 #testTypingChart('grasswaterfire','grasswaterfire')
-#testTypingChart('grasswaterghost','grasswaterghost')
+testTypingChart('grasswaterghost','grasswaterghost')
 #testTypingChart('grassfireghost','grassfireghost')
 
 def testEffectivenessMatrix():

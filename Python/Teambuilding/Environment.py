@@ -26,8 +26,74 @@ nonExistentTypings = [
 ('dragon','fairy')
 ]
 
+# order:
+# normal, grass, water, fire, ghost, ice, bug, flying, poison, electric,
+# rock, ground, steel, fighting, psychic, dragon, dark, fairy
+hasDualWeakness = [
+('normal','ice'),('normal','rock'),('normal','steel'),
+('grass','ice'),('grass','bug'),('grass','flying'),('grass','ground'),('grass','steel'),
+('grass','fighting'),('grass','psychic'),('grass','dragon'),('grass','dark'),('grass','fairy'),
+('water','flying'),('water','rock'),('water','ground'),
+('fire','bug'),('fire','flying'),('fire','poison'),('fire','electric'),('fire','rock'),('fire','ground'),
+('ghost','psychic'),
+('ice','flying'),('ice','rock'),('ice','steel'),('ice','fairy'),
+('bug','grass'),('bug','flying'),('bug','steel'),('bug','fighting'),
+('flying','gound'),('flying','dragon'),
+('electric','steel'),
+('poison','rock'),('poison','steel'),('poison','fighting'),
+('rock','ground'),('rock','steel'),('rock','fairy'),
+('ground','dragon'),
+('fighting','dark')
+]
+
+# Only obtained after E4 or late or is just a bad switch in
+gen5postE4 = [
+('water','dark'), ('dragon','dark'),('flying','dark'),('rock','dark'),
+('fire','dragon'),('electric','dragon'),('ice','dragon'),
+('flying','rock'),
+#('flying','steel')
+]
+
+levitateAdjustmentgen5  =[
+('electric','none'),('ground','dragon'),('rock','psychic'),('ground','psychic'),
+('ghost','none'),('psychic','none'),('steel','psychic'),('ice','none'),('dragon','dark')
+]
+
+# order:
+# normal, grass, water, fire, ghost, ice, bug, flying, poison, electric,
+# rock, ground, steel, fighting, psychic, dragon, dark, fairy
+# feel free to order the most preferred typings first
+gen5Regional = [
+('flying','electric'),('grass','none'),('fire','none'),('fire','fighting'),
+('water','none'),('normal','none'),('dark','none'),('normal','flying'),
+('bug','grass'),('electric','none'),('fighting','none'),
+('steel','fighting'),('bug','poison'),('poison','none'),('electric','steel'),
+('flying','poison'),('flying','psychic'),('rock','none'),
+('rock','ground'),('rock','steel'),('ground','none'),('ground','steel'),
+('psychic','none'),('ice','none'),('ground','dark'),
+('bug','rock'),('fighting','dark'),('ground','dragon'),
+('ghost','none'),('water','rock'),('flying','rock'),('steel','none'),
+('grass','poison'),('bug','flying'),('bug','fighting'),
+('bug','none'),('water','flying'),('bug','steel'),('normal','grass'),
+('ground','psychic'),('fire','bug'),('bug','electric'),
+('grass','steel'),('water','ghost'),('dragon','none'),('fire','ghost'),
+('flying','steel'),('fire','ground'),('ghost','flying'),
+('rock','psychic'),('ground','flying'),('steel','dark'),
+('rock','fighting'),('grass','fighting'),('water','ground'),('electric','ground'),
+('water','psychic'),('water','ice'),('flying','dragon'),('steel','psychic'),
+('ice','dark'),('ice','flying'),('ice','ground'),('ghost','ground'),
+('grass','flying'),('poison','fighting'),
+('water','dark'), ('dragon','dark'),('flying','dark'),('rock','dark'),
+('fire','dragon'),('electric','dragon'),('ice','dragon')
+# Won't be encountered
+#('fire','psychic'),('psychic','fighting'),('normal','psychic'),('water','fighting')
+]
+
+testRegional =  [('fire', 'ghost'), ('grass', 'ghost'), ('grass', 'none'), ('fire', 'none'), ('ghost', 'none')]
+
 # (defender, attacker)
 # resistance: 0, immunity: -1, neutral: 1, effective: 2
+## Changed to gen 5 typechart!
 effectiveness = {
 ('normal','normal') : 1, ('normal','grass') : 1, ('normal', 'fire'): 1,
 ('normal','water') : 1, ('normal','ghost') : -1, ('normal','ice') : 1,
@@ -102,11 +168,13 @@ effectiveness = {
 ('ground','steel') : 1, ('ground','fighting') : 1, ('ground','psychic') : 1,
 ('ground','dragon') : 1, ('ground','dark') : 1, ('ground','fairy') : 1,
 ('steel','normal') : 0, ('steel','grass') : 0, ('steel','water') : 1,
-('steel','fire') : 2, ('steel','ghost') : 1 , ('steel','ice') : 0,
+#('steel','fire') : 2, ('steel','ghost') : 1 , ('steel','ice') : 0,
+('steel','fire') : 2, ('steel','ghost') : 0 , ('steel','ice') : 0,
 ('steel','bug') : 0, ('steel','flying') : 0, ('steel','poison') : -1,
 ('steel','electric') : 1, ('steel','rock') : 0, ('steel','ground') : 2,
 ('steel','steel') : 0, ('steel','fighting') : 2, ('steel','psychic') : 0,
-('steel','dragon') : 0, ('steel','dark') : 1, ('steel','fairy') : 0,
+#('steel','dragon') : 0, ('steel','dark') : 1, ('steel','fairy') : 0,
+('steel','dragon') : 0, ('steel','dark') : 0, ('steel','fairy') : 0,
 ('fighting','normal') : 1, ('fighting','grass') : 1, ('fighting','water') : 1,
 ('fighting','fire') : 1, ('fighting','ghost') : 1, ('fighting','ice') : 1,
 ('fighting','bug') : 0, ('fighting','flying') : 2,('fighting','poison') : 1,
@@ -136,7 +204,9 @@ effectiveness = {
 ('fairy','bug') : 0, ('fairy','flying') : 1, ('fairy','poison') : 2,
 ('fairy','electric') : 1, ('fairy','rock') : 1, ('fairy','ground') : 1,
 ('fairy','steel') : 2, ('fairy','fighting') : 0, ('fairy','psychic') : 1,
-('fairy','dragon') : -1, ('fairy','dark') : 0, ('fairy','fairy') : 1
+('fairy','dragon') : -1, ('fairy','dark') : 0, ('fairy','fairy') : 1,
+# gen5 adjustments - KeyError
+#('levitate','normal') : 1, ('levitate','grass') : 1, ('levitate','water') : 1,('levitate','fire') : 1, ('levitate','ghost') : 1, ('levitate','ice') : 1,('levitate','bug') : 0, ('levitate','flying') : 1, ('levitate','poison') : 2,('levitate','electric') : 1, ('levitate','rock') : 1, ('levitate','ground') : -1,('levitate','steel') : 2, ('levitate','fighting') : 0, ('levitate','psychic') : 1,('levitate','dragon') : -1, ('levitate','dark') : 0,
 }
 
 #typings which resists itself
@@ -183,12 +253,37 @@ def getTypingList(cond):
             'ice', 'bug', 'flying', 'poison', 'electric',
             'rock', 'ground', 'steel', 'fighting', 'psychic',
             'dragon', 'dark', 'fairy'])
+    if cond == 'gen5RegionalNoDualWeaknes':
+        return makeTypingsDefender(gen5Regional)
+    if cond == 'gen5Regional':
+        return gen5Regional
+    if cond == 'testRegional':
+        return makeTypings2(testRegional)
 
 def makeTypings(typeList):
     typingList = []
     addDualtypes(typeList, typingList)
     addMonotypes(typeList, typingList)
     return typingList
+
+# used for regional runs
+def makeTypings2(typingList):
+    returnList = []
+    for typing in typingList:
+        if feasibleGen5(typing):
+            returnList.append(typing)
+    return returnList
+
+# used for regional runs
+def makeTypingsDefender(typingList):
+    returnList = []
+    for typing in typingList:
+        if feasibleGen5(typing):
+            returnList.append(typing)
+    return returnList
+
+def feasibleGen5(typing):
+    return typing not in hasDualWeakness and typing not in gen5postE4
 
 def makeMonoTypings(typeList):
     typingList = []

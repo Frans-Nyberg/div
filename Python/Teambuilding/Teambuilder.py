@@ -26,14 +26,18 @@ def listParties(n, colCond, rowCond, guessQuality):
     colTypingList = getTypingList(colCond)
     chart = ResistanceChart(colTypingList, typingList)
     guaranteeChart = TypingChart1.ResistanceChart(colTypingList,typingList)
+    print('Using environment: ', colTypingList, '\n VS\n', typingList)
     print('Using chart: \n', chart.makeResistanceMatrix())
-    print('Using environment: ', colTypingList, '\n VS', typingList)
+    print('of size ', len(chart.getRowTyping()), 'x', len(chart.getColTyping()))
     print()
     for party in partyGenerator(n, typingList, chart, guaranteeChart):
         guarantees = party.getGuaranteedResistCount()
         tryQuality = resistQuality(guarantees, chart)
         if tryQuality > guessQuality:
-            print('\nFound decent party:\n', party.getParty())
+            print('\nFound party!')
+            print('-~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~-')
+            print(party.getParty())
+            print('-~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~--~*~-')
             print('with quality', tryQuality)
             print()
             parties.append(party)
@@ -44,7 +48,16 @@ def resistQuality(resistances, chart):
     return resistances/comparison
 
 def partyGenerator(n, typingList, chart, guaranteeChart):
+    leadTypingSame = True
+    previousLeadTyping = ()
     for party in guessGenerator(n, typingList):
+        partyCont = party.getParty()
+        if partyCont[0] != previousLeadTyping:
+            leadTypingSame = False
+        if not leadTypingSame:
+            print('Checking Lead Typing',partyCont[0])
+            leadTypingSame = True
+        previousLeadTyping = partyCont[0]
         if conditionsMet(party, chart, guaranteeChart):    yield party
 
 def guessGenerator(n, typingList):
@@ -54,8 +67,9 @@ def guessGenerator(n, typingList):
 def conditionsMet(party, chart, guaranteeChart):
     colTypings = chart.getColTyping()
     foundCounter = False
-    for colTyping in colTypings:        
-        if not existsCounter(colTyping, party, chart): return False
+    for colTyping in colTypings:
+        for b in existsCounter(colTyping, party, chart):
+            if not b: return False
     party.guaranteedResistCount(countGuaranteedResist(party,chart,guaranteeChart))
 #    party.immunityCount(countImmunities(party, chart))
 #    party.sameTypeCount(countSameTypings(party, chart))
@@ -67,7 +81,7 @@ def existsCounter(foe, party, chart):
         identifier = chartContent[(member, foe)]
         if chart.isResistant(identifier):
             return True
-    return False
+    yield False
 
 def countGuaranteedResist(party, chart, guaranteeChart):
     def counter(party, chart):
